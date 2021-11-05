@@ -99,10 +99,10 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     uprintf("Layer State: %d", layer_state);
 #endif
     if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
-        rgb_matrix_set_color(LED_CAPS, RGB_RED);
+        rgb_matrix_set_color(LED_CAPS, RGB_PURPLE);
     }
     if (keymap_config.no_gui) {
-        rgb_matrix_set_color(LED_LWIN, RGB_RED);  //light up Win key when disabled
+        rgb_matrix_set_color(LED_LWIN, RGB_PURPLE);  //light up Win key when disabled
     }
 
     for (int i = 0; i < 8; i++) {
@@ -113,15 +113,19 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)){  
         case 1:  // on Fn pressed
             for (int i = 0; i < 8; i++) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
             }
-            rgb_matrix_set_color(LED_UNDER_ENCODER[0], RGB_RED); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[1], RGB_RED); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[2], RGB_RED); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_RED); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_RED); 
-            rgb_matrix_set_color(LED_INS, RGB_RED); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[0], RGB_PURPLE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[1], RGB_PURPLE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[2], RGB_PURPLE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_PURPLE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_PURPLE); 
+            rgb_matrix_set_color(LED_INS, RGB_PURPLE); 
+            rgb_matrix_set_color(LED_A, RGB_PURPLE); 
+            rgb_matrix_set_color(LED_D, RGB_PURPLE); 
+            rgb_matrix_set_color(LED_LEFT, RGB_PURPLE); 
+            rgb_matrix_set_color(LED_RIGHT, RGB_PURPLE); 
     }
 }
 #endif
