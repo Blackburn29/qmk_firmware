@@ -16,8 +16,18 @@
 
 #include QMK_KEYBOARD_H
 #include "rgb_matrix_map.h"
+#include "rgb_matrix.h"
 
 uint8_t last_rgb_mode;
+static uint16_t effect_timer = 0;
+static uint8_t sidebar_color_idx;
+
+const uint16_t SIDEBAR_COLORS[] = {
+    [0] = RGB_WHITE,
+    [1] = RGB_BLUE,
+    [2] = RGB_RED
+};
+
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -98,11 +108,64 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
 #ifdef CONSOLE_ENABLE
     uprintf("Layer State: %d", layer_state);
 #endif
+
+
+    effect_timer++;
+    for (int i = 0; i < 8; i++) {
+        //rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
+        //rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
+    }
+
+    if (effect_timer > 100) {
+        sidebar_color_idx++;
+
+        if (sidebar_color_idx > 3) {
+            sidebar_color_idx = 0;
+        }
+
+
+        for (int i = 0; i < 8; i++) {
+            if (sidebar_color_idx == 0) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
+            } else if (sidebar_color_idx == 1) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_GREEN);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_GREEN);
+            } else if (sidebar_color_idx == 2) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_BLUE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_BLUE);
+            } else {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
+            }
+        }
+
+        effect_timer = 0;
+        return;
+    }
+
+        for (int i = 0; i < 8; i++) {
+            if (sidebar_color_idx == 0) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
+            } else if (sidebar_color_idx == 1) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_GREEN);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_GREEN);
+            } else if (sidebar_color_idx == 2) {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_BLUE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_BLUE);
+            } else {
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
+            }
+        }
+    return;
+    //RGB_MATRIX_USE_LIMITS(led_min, led_max);
     if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
-        rgb_matrix_set_color(LED_CAPS, RGB_PURPLE);
+        rgb_matrix_set_color(LED_CAPS, RGB_AZURE);
     }
     if (keymap_config.no_gui) {
-        rgb_matrix_set_color(LED_LWIN, RGB_PURPLE);  //light up Win key when disabled
+        rgb_matrix_set_color(LED_LWIN, RGB_AZURE);  //light up Win key when disabled
     }
 
     for (int i = 0; i < 8; i++) {
@@ -113,19 +176,19 @@ void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     switch(get_highest_layer(layer_state)){  
         case 1:  // on Fn pressed
             for (int i = 0; i < 8; i++) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
+                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_AZURE);
+                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_AZURE);
             }
-            rgb_matrix_set_color(LED_UNDER_ENCODER[0], RGB_PURPLE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[1], RGB_PURPLE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[2], RGB_PURPLE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_PURPLE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_PURPLE); 
-            rgb_matrix_set_color(LED_INS, RGB_PURPLE); 
-            rgb_matrix_set_color(LED_A, RGB_PURPLE); 
-            rgb_matrix_set_color(LED_D, RGB_PURPLE); 
-            rgb_matrix_set_color(LED_LEFT, RGB_PURPLE); 
-            rgb_matrix_set_color(LED_RIGHT, RGB_PURPLE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[0], RGB_AZURE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[1], RGB_AZURE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[2], RGB_AZURE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_AZURE); 
+            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_AZURE); 
+            rgb_matrix_set_color(LED_INS, RGB_AZURE); 
+            rgb_matrix_set_color(LED_A, RGB_AZURE); 
+            rgb_matrix_set_color(LED_D, RGB_AZURE); 
+            rgb_matrix_set_color(LED_LEFT, RGB_AZURE); 
+            rgb_matrix_set_color(LED_RIGHT, RGB_AZURE); 
     }
 }
 #endif
@@ -158,5 +221,9 @@ void keyboard_post_init_user(void) {
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_set_flags(LED_FLAG_ALL);
     last_rgb_mode = rgb_matrix_get_mode();
+    for (int i = 0; i < 8; i++) {
+        rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_YELLOW);
+        rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_YELLOW);
+    }
 #endif
 }
