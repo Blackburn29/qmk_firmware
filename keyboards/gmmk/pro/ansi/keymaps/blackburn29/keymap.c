@@ -15,18 +15,12 @@
  */
 
 #include QMK_KEYBOARD_H
-#include "rgb_matrix_map.h"
-#include "rgb_matrix.h"
+//#include "print.h"
+//#include "rgb_matrix_map.h"
+#include "rgb_matrix_effects.h"
+#include "encoder.h"
 
 uint8_t last_rgb_mode;
-static uint16_t effect_timer = 0;
-static uint8_t sidebar_color_idx;
-
-const uint16_t SIDEBAR_COLORS[] = {
-    [0] = RGB_WHITE,
-    [1] = RGB_BLUE,
-    [2] = RGB_RED
-};
 
 
 // clang-format off
@@ -73,123 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    // https://beta.docs.qmk.fm/using-qmk/simple-keycodes/feature_advanced_keycodes#alt-escape-for-alt-tab-id-alt-escape-for-alt-tab
-    if (get_mods() & MOD_MASK_CTRL) { // If CTRL is held
-        uint8_t mod_state = get_mods(); // Store all  modifiers that are held
-        unregister_mods(MOD_MASK_CTRL); // Immediately unregister the CRTL key (don't send CTRL-PgDn) - del_mods doesn't work here (not immediate)
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-        set_mods(mod_state); // Add back in the CTRL key - so ctrl-key will work if ctrl was never released after paging.
-    } else if (get_mods() & MOD_MASK_SHIFT) {
-        uint8_t mod_state = get_mods();
-        unregister_mods(MOD_MASK_SHIFT);  
-        if (clockwise) {
-            tap_code(KC_MS_WH_DOWN);
-        } else {
-            tap_code(KC_MS_WH_UP);
-        }
-        set_mods(mod_state);
-    } else if (clockwise) { // All else volume.
-        tap_code(KC_VOLU);
-    } else {
-        tap_code(KC_VOLD);
-    }
-    return true;
-}
-#endif //ENCODER_ENABLE
-
 #ifdef RGB_MATRIX_ENABLE
 void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-#ifdef CONSOLE_ENABLE
-    uprintf("Layer State: %d", layer_state);
-#endif
-
-
-    effect_timer++;
-    for (int i = 0; i < 8; i++) {
-        //rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
-        //rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
-    }
-
-    if (effect_timer > 100) {
-        sidebar_color_idx++;
-
-        if (sidebar_color_idx > 3) {
-            sidebar_color_idx = 0;
-        }
-
-
-        for (int i = 0; i < 8; i++) {
-            if (sidebar_color_idx == 0) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
-            } else if (sidebar_color_idx == 1) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_GREEN);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_GREEN);
-            } else if (sidebar_color_idx == 2) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_BLUE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_BLUE);
-            } else {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
-            }
-        }
-
-        effect_timer = 0;
-        return;
-    }
-
-        for (int i = 0; i < 8; i++) {
-            if (sidebar_color_idx == 0) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_RED);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_RED);
-            } else if (sidebar_color_idx == 1) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_GREEN);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_GREEN);
-            } else if (sidebar_color_idx == 2) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_BLUE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_BLUE);
-            } else {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_PURPLE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_PURPLE);
-            }
-        }
-    return;
-    //RGB_MATRIX_USE_LIMITS(led_min, led_max);
-    if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
-        rgb_matrix_set_color(LED_CAPS, RGB_AZURE);
-    }
-    if (keymap_config.no_gui) {
-        rgb_matrix_set_color(LED_LWIN, RGB_AZURE);  //light up Win key when disabled
-    }
-
-    for (int i = 0; i < 8; i++) {
-        rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_WHITE);
-        rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_WHITE);
-    }
-
-    switch(get_highest_layer(layer_state)){  
-        case 1:  // on Fn pressed
-            for (int i = 0; i < 8; i++) {
-                rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_AZURE);
-                rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_AZURE);
-            }
-            rgb_matrix_set_color(LED_UNDER_ENCODER[0], RGB_AZURE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[1], RGB_AZURE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[2], RGB_AZURE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_AZURE); 
-            rgb_matrix_set_color(LED_UNDER_ENCODER[3], RGB_AZURE); 
-            rgb_matrix_set_color(LED_INS, RGB_AZURE); 
-            rgb_matrix_set_color(LED_A, RGB_AZURE); 
-            rgb_matrix_set_color(LED_D, RGB_AZURE); 
-            rgb_matrix_set_color(LED_LEFT, RGB_AZURE); 
-            rgb_matrix_set_color(LED_RIGHT, RGB_AZURE); 
-    }
+    rgb_matrix_handle_effects();
 }
 #endif
 
@@ -218,12 +98,10 @@ uint32_t layer_state_set_user(uint32_t state) {
 
 
 void keyboard_post_init_user(void) {
+    //debug_enable = true;
+    //debug_matrix = true;
 #ifdef RGB_MATRIX_ENABLE
     rgb_matrix_set_flags(LED_FLAG_ALL);
     last_rgb_mode = rgb_matrix_get_mode();
-    for (int i = 0; i < 8; i++) {
-        rgb_matrix_set_color(LED_SIDE_RIGHT[i], RGB_YELLOW);
-        rgb_matrix_set_color(LED_SIDE_LEFT[i], RGB_YELLOW);
-    }
 #endif
 }
