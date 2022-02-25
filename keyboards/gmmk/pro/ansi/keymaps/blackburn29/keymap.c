@@ -56,7 +56,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [1] = LAYOUT(
             _______, KC_MYCM, KC_WHOM, KC_CALC, KC_MSEL, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_PSCR,          _______,
-            _______, RGB_TOG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,          _______,
+            _______, RGB_TOG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PPLS, _______,          _______,
             _______, RGB_SPD, RGB_VAI, RGB_SPI,  _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            _______,
             _______, KC_HOME, RGB_VAD, KC_END, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
             _______,          _______, RGB_HUI, _______, _______, _______, NK_TOGG, _______, _______, _______, _______,          _______, RGB_MOD, KC_END,
@@ -87,7 +87,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 uint32_t layer_state_set_user(uint32_t state) {
  switch (biton32(state)) {
  case 1:
-     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
+     //rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
      break;
  default: //  for any other layers, or the default layer
      rgb_matrix_mode_noeeprom(last_rgb_mode);
