@@ -42,7 +42,7 @@ shift $((OPTIND-1))
 
 if [ $c -eq 1 ]; then
     echo "Compiling firmware with docker..."
-    $QMK_HOME/util/docker_build.sh gmmk/pro/ansi:blackburn29
+    $QMK_HOME/util/docker_build.sh gmmk/pro/rev1/ansi:blackburn29
 fi
 
 if [ -z "$f" ]; then
