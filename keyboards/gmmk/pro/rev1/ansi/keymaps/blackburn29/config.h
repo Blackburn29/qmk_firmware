@@ -16,6 +16,9 @@
 
 #pragma once
 
+//#define USB_POLLING_INTERVAL_MS 1
+//#define QMK_KEYS_PER_SCAN 12
+
 #ifdef RGB_MATRIX_ENABLE
     //#define RGB_DISABLE_TIMEOUT 1200000     // 20 minutes (20 * 60 * 1000ms)
     //#define RGB_DISABLE_WHEN_USB_SUSPENDED
