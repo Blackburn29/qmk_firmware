@@ -14,7 +14,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #pragma once
-#include QMK_KEYBOARD_H
+#include "quantum.h"
 
 void rgb_matrix_handle_effects(void);
 void rgb_matrix_set_sidebar_color(uint8_t red, uint8_t green, uint8_t blue);

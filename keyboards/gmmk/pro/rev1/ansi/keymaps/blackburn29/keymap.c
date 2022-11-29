@@ -16,9 +16,7 @@
 
 #include QMK_KEYBOARD_H
 //#include "print.h"
-//#include "rgb_matrix_map.h"
 #include "rgb_matrix_effects.h"
-#include "encoder.h"
 
 uint8_t last_rgb_mode;
 
@@ -57,7 +55,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT(
             _______, KC_MYCM, KC_WHOM, KC_CALC, KC_MSEL, KC_MPRV, KC_MNXT, KC_MPLY, KC_MSTP, KC_MUTE, KC_VOLD, KC_VOLU, _______, KC_PSCR,          _______,
             _______, RGB_TOG, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_PPLS, _______,          _______,
-            _______, RGB_SPD, RGB_VAI, RGB_SPI,  _______, _______, _______, _______, _______, _______, _______, _______, _______, RESET,            _______,
+            _______, RGB_SPD, RGB_VAI, RGB_SPI,  _______, _______, _______, _______, _______, _______, _______, _______, _______,QK_BOOT,            _______,
             _______, KC_HOME, RGB_VAD, KC_END, _______, _______, _______, _______, _______, _______, _______, _______,          _______,          _______,
             _______,          _______, RGB_HUI, _______, _______, _______, NK_TOGG, _______, _______, _______, _______,          _______, RGB_MOD, KC_END,
             _______, _______, _______,                            _______,                            _______, _______, _______, KC_HOME, RGB_RMOD, KC_END
@@ -68,8 +66,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // clang-format on
 
 #ifdef RGB_MATRIX_ENABLE
-void rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     rgb_matrix_handle_effects();
+    return false;
 }
 #endif
 
