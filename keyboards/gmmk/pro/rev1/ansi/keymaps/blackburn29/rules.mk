@@ -1,5 +1,4 @@
-CONSOLE_ENABLE = yes
-NKRO_ENABLE = no           # USB Nkey Rollover
+CONSOLE_ENABLE = no
 ENCODER_ENABLE = yes
 RGB_MATRIX_ENABLE = yes
 DEBOUNCE_TYPE = sym_defer_pk
