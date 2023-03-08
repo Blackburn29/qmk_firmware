@@ -37,7 +37,7 @@ void rgb_matrix_handle_effects() {
     }
 
     // Mimic stock functionality of blinking sidebars on caps lock
-    if (IS_HOST_LED_ON(USB_LED_CAPS_LOCK)) {
+    if (host_keyboard_led_state().caps_lock) {
         if (is_blink_active(200)) {
             rgb_matrix_set_color(LED_CAPS, RGB_RED);
             rgb_matrix_set_sidebar_color(RGB_RED);
